@@ -10,7 +10,7 @@ wheels/
 .venv
 
 # Data files
-*.csv    
+*.csv
 output/
 
 # Environment files

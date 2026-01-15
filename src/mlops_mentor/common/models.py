@@ -116,6 +116,19 @@ class RepoInfo(BaseModel):
             commits.extend(request)
         return commits
 
+    @property
+    def latest_commit_sha(self) -> str:
+        """Returns the SHA of the latest commit on the default branch."""
+        if hasattr(self, "_latest_commit_sha"):
+            return self._latest_commit_sha
+        response = requests.get(
+            f"{self.repo_api}/commits/{self.default_branch}",
+            headers=headers,
+            timeout=100,
+        ).json()
+        self._latest_commit_sha = response["sha"]
+        return self._latest_commit_sha
+
 
 class GroupInfo(BaseModel):
     """Model for group information."""

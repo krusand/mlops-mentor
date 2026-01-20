@@ -146,8 +146,10 @@ class RepoContent(BaseModel):
 
     @property
     def has_requirements_file(self) -> bool:
-        """Returns True if the repository has a requirements.txt file."""
-        return any("requirements.txt" in f["path"] for f in self.file_tree)
+        """Returns True if the repository has a requirements.txt or uv.lock file"""
+        has_uv = any("uv.lock" in f["path"] for f in self.file_tree)
+        has_req = any("requirements.txt" in f["path"] for f in self.file_tree)
+        return any(has_uv, has_req)
 
     @property
     def has_cloudbuild(self) -> bool:
